@@ -61,6 +61,7 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
+// import { url } from 'inspector'
 
 export default {
   name: 'AppPublish',
@@ -105,20 +106,36 @@ export default {
     },
     async handlePublish (draft) {
       try {
-        await this.$http({
-          method: 'POST',
-          url: '/articles',
-          params: {
-            draft
-          },
-          data: this.articleForm
-        })
-        this.$message({
-          type: 'success',
-          message: '发布成功'
-        })
+        if (this.$route.name === 'publish') {
+          await this.$http({
+            method: 'POST',
+            url: '/articles',
+            params: {
+              draft
+            },
+            data: this.articleForm
+          })
+          this.$message({
+            type: 'success',
+            message: '发布成功'
+          })
+        } else {
+        // 执行编辑操作
+          await this.$http({
+            method: 'PUT',
+            url: `/articles/${this.$route.params.id}`,
+            params: {
+              draft
+            },
+            data: this.articleForm
+          })
+          this.$message({
+            type: 'success',
+            message: '修改成功'
+          })
+        }
       } catch (err) {
-        this.$message.error('发布失败', err)
+        this.$message.error('操作失败', err)
       }
     }
   }
