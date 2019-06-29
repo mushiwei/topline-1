@@ -30,18 +30,25 @@
               <p>头像设置</p>
               <!-- 文件上传组件
               action 上传请求地址,必须的
+              headers 配置上传请求的请求头
+              如果有token则需要手动配置到这里
+              data 默认只携带文件,如果需要别的数据,可以放到data中
+              name 上传的的文件字段名称,默认叫file 如果你的借口要求的名字和在这个不一致,则需要单独配置
               show-file-list 是否显示文件预览列表
               on-success 文件上传成功触发的回调
-              before-upload 文件上传之前触发的回调 -->
+              before-upload 文件上传之前触发的回调
+              http-request 如果它的默认配置无法满足你,则我们可以自己去发请求上传文件  注意:这个组件的请求方法默认是POST 不能配置 -->
               <el-upload
               class="avatar-uploader"
-              action="http://jsonplaceholder.typicode.com/posts"
+              action="http://ttapi.research.itcast.cn/mp/v1_0/user/photo"
               :show-file-list="false"
+              :http-request="handleUpload"
               >
               <!-- 用来预览的上传的图片 -->
               <img v-if="user.photo" :src="user.photo" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <p>点击上传头像</p>
           </el-col>
       </el-row>
   </el-card>
@@ -93,6 +100,29 @@ export default {
       } catch (err) {
         console.log(err)
         this.$message.error('保存修改失败')
+      }
+    },
+    async handleUpload (uploadConfig) {
+      try {
+        // axios 上传文件
+        // 1.构建一个 FormData对象
+        // 将文件添加到FormData 对象中
+        const formData = new FormData()
+        formData.append('photo', uploadConfig.file)
+        // 2.发起请求,将FormData对象作为axios的data请求体
+        const data = await this.$http({
+          method: 'PATCH',
+          url: '/user/photo',
+          data: formData
+        })
+        this.user.photo = data.photo
+        this.$message({
+          type: 'success',
+          message: '修改媒体头像成功'
+        })
+      } catch (err) {
+        console.log(err)
+        this.$message.error('修改媒体头像失败')
       }
     }
   }
