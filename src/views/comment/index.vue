@@ -7,7 +7,7 @@
             <el-table-column label="标题" prop="title"></el-table-column>
             <el-table-column label="总评论数" prop="total_comment_count"></el-table-column>
             <el-table-column label="评论粉丝数" prop="fans_comment_count"></el-table-column>
-            <el-table-colum label="允许评论">
+            <el-table-column label="允许评论">
                 <template slot-scope="scope">
                     <el-switch
                     :disabled="scope.row.disabled"
@@ -17,14 +17,14 @@
                     @change="handleChangeStatus(scope.row)"
                     ></el-switch>
                 </template>
-            </el-table-colum>
+            </el-table-column>
             </el-table>
     </el-card>
 </template>
 
 <script>
 export default {
-//   name: 'ArticleComment',
+  name: 'ArticleComment',
   data () {
     return {
       articles: []

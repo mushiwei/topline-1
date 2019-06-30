@@ -93,7 +93,7 @@ router.beforeEach((to, from, next) => {
       // next('/login')
       // next({ path: '/login' })
     } else {
-      console.log(3)
+      // console.log(3)
       //   登录了，允许通过
       next()
     }

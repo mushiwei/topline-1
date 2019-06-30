@@ -4,7 +4,7 @@
             <span>素材管理</span>
         </div>
         <div class="action">
-          <el-radio-group v-model="radio1">
+          <el-radio-group v-model="active">
            <el-radio-button label="全部"></el-radio-button>
            <el-radio-button label="收藏"></el-radio-button>
          </el-radio-group>
@@ -17,7 +17,7 @@
                     <img src="item.url" class="image" style="max-width: 100%;">
                     <div style="padding: 10px;">
                         <div class="bottom clearfix">
-                             <el-button plain type="primary" icon="item.is_collected ? 'el-icon-star-on' : 'el-icon-star-off'" circle
+                             <el-button plain type="primary" :icon="item.is_collected ? 'el-icon-star-on' : 'el-icon-star-off'" circle
                              @click="handleCollect(item)"></el-button>
                               <el-button plain type="primary" icon="el-icon-delete" circle></el-button>
                         </div>
@@ -54,7 +54,7 @@ export default {
         })
         this.images = data.results
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         this.$message.error('加载图片列表失败')
       }
     },
@@ -85,6 +85,11 @@ export default {
 <style lang="less" scoped>
  .action {
      display: flex;
-     justify-content: center;
+     justify-content: space-between;
+     margin-bottom: 15px;
+ }
+ .bottom {
+   display: flex;
+   justify-content: center;
  }
 </style>
